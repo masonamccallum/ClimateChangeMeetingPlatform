@@ -50,6 +50,13 @@ public class AppUser implements Serializable {
     public AppUser(Integer userid) {
         this.userid = userid;
     }
+
+    public AppUser(Integer userid, String username) {
+        this.userid = userid;
+        this.username = username;
+    }
+    
+    
     
     public AppUser(Integer userid, String username, String email) {
         this.userid = userid;
