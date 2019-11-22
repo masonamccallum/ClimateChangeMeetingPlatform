@@ -72,7 +72,6 @@
       <application-ref ref="ZoomAppDemo" virtual-servers="server"></application-ref>
       <application-ref ref="Lab6" virtual-servers="server"></application-ref>
       <application-ref ref="Lab7" virtual-servers="server"></application-ref>
-      <application-ref ref="ClimateMeetingPlatform" virtual-servers="server"></application-ref>
       <resource-ref ref="jdbc/__TimerPool"></resource-ref>
       <resource-ref ref="jdbc/__default"></resource-ref>
       <resource-ref ref="jdbc/__derby"></resource-ref>
@@ -634,32 +633,6 @@
         <engine sniffer="security"></engine>
         <engine sniffer="web"></engine>
       </module>
-    </application>
-    <application deployment-time="6258" context-root="/ClimateChangeMeetingPlatform" object-type="user" name="ClimateMeetingPlatform" directory-deployed="true" location="file:/D:/ClimateChangeMeetingPlatform/target/ClimateMeetingPlatform-1.0/" time-deployed="1573693538089">
-      <property name="archiveType" value="war"></property>
-      <property name="cdiDevModeEnabled" value="false"></property>
-      <property name="defaultAppName" value="ClimateMeetingPlatform-1.0"></property>
-      <property name="appLocation" value="file:/D:/ClimateChangeMeetingPlatform/target/ClimateMeetingPlatform-1.0/"></property>
-      <property name="glassfish-web:j2eeType=WebModule,name=//server/ClimateChangeMeetingPlatform,J2EEApplication=null,J2EEServer=server" value="rO0ABXNyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV3AwABOnhyABBqYXZh
-LmxhbmcuTnVtYmVyhqyVHQuU4IsCAAB3AwABOnhwAAAAAA=="></property>
-      <module name="ClimateMeetingPlatform">
-        <engine sniffer="jpa"></engine>
-        <engine sniffer="resources"></engine>
-        <engine sniffer="security"></engine>
-        <engine sniffer="web"></engine>
-      </module>
-      <resources>
-        <jdbc-connection-pool datasource-classname="org.postgresql.ds.PGSimpleDataSource" name="java:app/post-gre-sql_app_postgresPool" wrap-jdbc-objects="false" sql-trace-listeners="" connection-validation-method="auto-commit" res-type="javax.sql.DataSource">
-          <property name="User" value="postgres"></property>
-          <property name="databaseName" value="app"></property>
-          <property name="driverClass" value="org.postgresql.Driver"></property>
-          <property name="serverName" value="zoomappdev-db.cirzohpav7cd.us-east-2.rds.amazonaws.com"></property>
-          <property name="portNumber" value="5432"></property>
-          <property name="URL" value="jdbc:postgresql://zoomappdev-db.cirzohpav7cd.us-east-2.rds.amazonaws.com:5432/app"></property>
-          <property name="Password" value="RandomForest00"></property>
-        </jdbc-connection-pool>
-        <jdbc-resource pool-name="java:app/post-gre-sql_app_postgresPool" jndi-name="java:app/ZoomAppDevDB"></jdbc-resource>
-      </resources>
     </application>
   </applications>
 </domain>

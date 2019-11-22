@@ -1,16 +1,26 @@
 package edu.tarleton.edu.rho.climatemeetingplatform;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.transaction.UserTransaction;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.JSONObject;
 
 /**
  *
@@ -20,64 +30,60 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "appusers")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "AppUsers.findAll", query = "SELECT a FROM AppUser a"),
-    @NamedQuery(name = "AppUsers.findByUserid", query = "SELECT a FROM AppUser a WHERE a.userid = :userid"),
-    @NamedQuery(name = "AppUsers.findByUsername", query = "SELECT a FROM AppUser a WHERE a.username = :username"),
-    @NamedQuery(name = "AppUsers.findByEmail", query = "SELECT a FROM AppUser a WHERE a.email = :email")})
+    @NamedQuery(name = "AppUser.findAll", query = "SELECT a FROM AppUser a"),
+    @NamedQuery(name = "AppUser.findByUserId", query = "SELECT a FROM AppUser a WHERE a.userId = :userId"),
+    @NamedQuery(name = "AppUser.findByEmail", query = "SELECT a FROM AppUser a WHERE a.email = :email"),
+    @NamedQuery(name = "AppUser.findByUsername", query = "SELECT a FROM AppUser a WHERE a.username = :username"),
+    @NamedQuery(name = "AppUser.findByOwnedChannelIds", query = "SELECT a FROM AppUser a WHERE a.ownedChannelIds = :ownedChannelIds"),
+    @NamedQuery(name = "AppUser.findByParticipatingChannelIds", query = "SELECT a FROM AppUser a WHERE a.participatingChannelIds = :participatingChannelIds")})
 public class AppUser implements Serializable {
 
+    @Transient
+    @PersistenceContext(unitName="appusers")
+    public static EntityManager em;
+    
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "userid")
-    private Integer userid;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "username")
-    private String username;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
+    @Column(name = "user_id")
+    public Integer userId;
+    
+// @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 255)
     @Column(name = "email")
-    private String email;
+    public String email;
+    
+    @Size(max = 255)
+    @Column(name = "username")
+    public String username;
+    
+    @Column(name = "owned_channel_ids")
+    @Convert(converter = StringToIntegerListConverter.class)
+    private List<Integer> ownedChannelIds;
+    
+    @Column(name = "participating_channel_ids")
+    @Convert(converter = StringToIntegerListConverter.class)
+    private List<Integer> participatingChannelIds;
+    
+    @Size(max = 2147483647)
+    @Column(name = "password")
+    private String password;
 
     public AppUser() {
     }
 
-    public AppUser(Integer userid) {
-        this.userid = userid;
+    public AppUser(Integer userId) {
+        this.userId = userId;
     }
 
-    public AppUser(Integer userid, String username) {
-        this.userid = userid;
-        this.username = username;
-    }
-    
-    
-    
-    public AppUser(Integer userid, String username, String email) {
-        this.userid = userid;
-        this.username = username;
-        this.email = email;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public Integer getUserid() {
-        return userid;
-    }
-
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getEmail() {
@@ -88,10 +94,34 @@ public class AppUser implements Serializable {
         this.email = email;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<Integer> getOwnedChannelIds() {
+        return ownedChannelIds;
+    }
+
+    public void setOwnedChannelIds(List<Integer> ownedChannelIds) {
+        this.ownedChannelIds = ownedChannelIds;
+    }
+
+    public List<Integer> getParticipatingChannelIds() {
+        return participatingChannelIds;
+    }
+
+    public void setParticipatingChannelIds(List<Integer> participatingChannelIds) {
+        this.participatingChannelIds = participatingChannelIds;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (userid != null ? userid.hashCode() : 0);
+        hash += (userId != null ? userId.hashCode() : 0);
         return hash;
     }
 
@@ -102,7 +132,7 @@ public class AppUser implements Serializable {
             return false;
         }
         AppUser other = (AppUser) object;
-        if ((this.userid == null && other.userid != null) || (this.userid != null && !this.userid.equals(other.userid))) {
+        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
             return false;
         }
         return true;
@@ -110,7 +140,24 @@ public class AppUser implements Serializable {
 
     @Override
     public String toString() {
-        return "edu.tarleton.edu.rho.climatemeetingplatform.AppUser[ userid=" + userid + " ]";
+        return "AppUser[ \n"
+                + "\tuserId=" + userId + ",\n"
+                + "\tusername=" + username + " ]";
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
     
+    public JSONObject toSimpleJson() {
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("username", this.username);
+        jsonObj.put("email", this.email);
+        
+        return jsonObj;
+    }
 }

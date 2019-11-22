@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Landing Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type='text/javascript' src='login.js'></script>
+    </head>
+   
+    <body>
+        <header class="w3-container">
+            <img src="images/logo.png" alt="Image" class="w3-image w3-padding w3-quarter"
+                style="width:250px">
+        </header>
+
+        <div class="w3-container w3-twothird w3-margin-top">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin, mi vitae volutpat fermentum, ligula libero condimentum lorem, sit amet euismod leo lacus ac purus. Phasellus vulputate consectetur pulvinar. Vivamus vehicula sit amet felis eu sollicitudin. Nullam non sagittis mi. Sed lobortis nisi massa, vulputate efficitur neque facilisis eu. Curabitur finibus euismod justo et condimentum. Maecenas sed maximus justo, vitae vehicula dolor. Ut pretium dolor ut aliquet porttitor. Sed lorem felis, maximus ut rhoncus vitae, vehicula at ipsum. Vestibulum placerat sit amet tellus id laoreet. Aliquam vel risus id orci sodales cursus. Nam et enim orci. Curabitur imperdiet cursus sagittis. </p>
+        </div>
+        <div class="w3-container w3-third w3-margin-top">
+            <form id="login-form" class="w3-container w3-card-4" action="Login" method="post">
+                <p>
+                <input id="username" class="w3-input" type="text" style="width:90%" value="demoUser" name="username" required readonly>
+                <label>Username/Email</label>
+                </p>
+                <p>
+                <input id="password" class="w3-input" type="password"
+                       style="width:90%" value="12345678" 
+                       name="password"
+                       required disabled>
+                <label>Password</label></p>
+
+                <p>
+                <input id="stay-logged-in" class="w3-check" type="checkbox" checked="checked">
+                <label>Stay logged in</label></p>
+
+                <p>
+                <button class="w3-button w3-section w3-deep-purple w3-ripple"> Log in </button></p>
+
+            </form>
+        </div>
+    </body>
+</html>
