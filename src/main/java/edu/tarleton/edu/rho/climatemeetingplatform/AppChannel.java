@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.json.JSONObject;
 
 /**
- *
+ * This AppChannel entity class was generated from a database.
  * @author Johnny
  */
 @Entity
@@ -38,6 +38,9 @@ import org.json.JSONObject;
     @NamedQuery(name = "AppChannel.findByParticipantIds", query = "SELECT a FROM AppChannel a WHERE a.participantIds = :participantIds")})
 public class AppChannel implements Serializable {
 
+    /*
+    * A temporary variable to handle unique indexes when creating channels.
+    */
     @Transient
     private static Integer NextChannelId = 7;
     
@@ -160,6 +163,11 @@ public class AppChannel implements Serializable {
         return "edu.tarleton.edu.rho.climatemeetingplatform.AppChannel[ channelId=" + channelId + " ]";
     }
     
+    /**
+     * Returns a JSON representing channel information.
+     * 
+     * @return  a JSONObject 
+     */
     public JSONObject toInfoJson() {
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("channel_id", this.channelId);

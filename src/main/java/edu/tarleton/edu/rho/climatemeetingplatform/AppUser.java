@@ -2,9 +2,6 @@ package edu.tarleton.edu.rho.climatemeetingplatform;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.InitialContext;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -16,16 +13,17 @@ import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.transaction.UserTransaction;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.json.JSONObject;
 
 /**
- *
+ * This AppUser entity class was generated from a database.
+ * 
  * @author Johnny
  */
+
 @Entity
 @Table(name = "appusers")
 @XmlRootElement
@@ -37,10 +35,6 @@ import org.json.JSONObject;
     @NamedQuery(name = "AppUser.findByOwnedChannelIds", query = "SELECT a FROM AppUser a WHERE a.ownedChannelIds = :ownedChannelIds"),
     @NamedQuery(name = "AppUser.findByParticipatingChannelIds", query = "SELECT a FROM AppUser a WHERE a.participatingChannelIds = :participatingChannelIds")})
 public class AppUser implements Serializable {
-
-    @Transient
-    @PersistenceContext(unitName="appusers")
-    public static EntityManager em;
     
     private static final long serialVersionUID = 1L;
     
@@ -48,16 +42,16 @@ public class AppUser implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_id")
-    public Integer userId;
+    private Integer userId;
     
 // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 255)
     @Column(name = "email")
-    public String email;
+    private String email;
     
     @Size(max = 255)
     @Column(name = "username")
-    public String username;
+    private String username;
     
     @Column(name = "owned_channel_ids")
     @Convert(converter = StringToIntegerListConverter.class)
@@ -118,6 +112,14 @@ public class AppUser implements Serializable {
         this.participatingChannelIds = participatingChannelIds;
     }
     
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -145,14 +147,13 @@ public class AppUser implements Serializable {
                 + "\tusername=" + username + " ]";
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
+      
+    /**
+    *  Returns a simple JSON representation of this AppUser.
+    *  This JSON only contains the username and email.
+    *
+    *  @return  a JSONObject
+    */
     public JSONObject toSimpleJson() {
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("username", this.username);

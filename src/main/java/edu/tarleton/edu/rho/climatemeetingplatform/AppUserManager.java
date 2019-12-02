@@ -1,6 +1,5 @@
 package edu.tarleton.edu.rho.climatemeetingplatform;
 
-import static edu.tarleton.edu.rho.climatemeetingplatform.AppUser.em;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -12,7 +11,8 @@ import javax.transaction.UserTransaction;
 import org.json.JSONObject;
 
 /**
- *
+ * The AppUserManager handles user queries and transactions to and from the database.
+ * 
  * @author Johnny
  */
 public class AppUserManager {
@@ -81,7 +81,7 @@ public class AppUserManager {
             transaction.begin();
             
             // Persit our AppUser object (send it to the database)
-            em.merge(appUser);
+            em.persist(appUser);
             
             // Commit our transaction
             transaction.commit();

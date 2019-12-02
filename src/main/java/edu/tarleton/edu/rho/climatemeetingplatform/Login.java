@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.tarleton.edu.rho.climatemeetingplatform;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
@@ -19,10 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
 
 /**
- *
+ * Servlet that handles login.
+ * This servlet sets the clients session current user and loads necessary 
+ * information from the database to populate the dashboard page.
  * @author Johnny
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
@@ -32,27 +25,32 @@ public class Login extends HttpServlet {
     protected EntityManager em;
     
     protected void setUserSession(HttpServletRequest request, AppUser user) {
-        // Create a session object if it is already not created.
-        HttpSession session = request.getSession(true);
-        session.setAttribute("user", user);
+        
     }
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
-        String username = (String)request.getParameter("username").strip();  
-        System.out.println("username: " + username);
+        String username = (String)request.getParameter("username").strip(); 
         try {
-           AppUserManager userManager = new AppUserManager(em);
-           AppUser user = userManager.getAppUserByUsername(username);
-           user.setEmail("test1");
-           userManager.update(user);
-           setUserSession(request, user);
-           System.out.println(user.toString());
+            // User a user manager to load a user from the database 
+            AppUserManager userManager = new AppUserManager(em);
+            AppUser user = userManager.getAppUserByUsername(username);
+            
+            System.out.println("User:" + user.toString());
+            
+            // Create a session object if it is already not created.
+            HttpSession session = request.getSession(true);
+
+            // Set the session's current user
+            session.setAttribute("user", user);
+
+            Integer userId = ((AppUser)session.getAttribute("user")).getUserId();
+            System.out.println("userId: " + userId);
 
          } catch (Exception ex){
-             Logger.getLogger(AppUser.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AppUser.class.getName()).log(Level.SEVERE, null, ex);
          }
 
       
@@ -60,9 +58,10 @@ public class Login extends HttpServlet {
         response.setContentType("text/html");
 
         // New location to be redirected
-        String site = new String("dashboard.jsp");
+        String site = "dashboard.jsp";
 
-        response.setStatus(response.SC_MOVED_TEMPORARILY);
+        // Send redirect
+        response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
         response.setHeader("Location", site); 
     }
 }

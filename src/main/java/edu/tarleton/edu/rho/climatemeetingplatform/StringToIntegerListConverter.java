@@ -1,6 +1,5 @@
 package edu.tarleton.edu.rho.climatemeetingplatform;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,7 +7,12 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 /**
- *
+ * Converts between String and Integer List attributes for entities.
+ * PostgreSQL doesn't handle Integer Lists very well. Therefore, lists in the 
+ * database are represented as Strings. When sending a Integer List attribute
+ * to the database, this first converts it into a String. Similarly, when reading
+ * a String representing an Integer List from the database, this class converts 
+ * it to such a List. 
  * @author Johnny
  */
 @Converter

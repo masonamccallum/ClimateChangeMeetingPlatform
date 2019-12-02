@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.tarleton.edu.rho.climatemeetingplatform;
 
 import java.io.IOException;
@@ -18,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Servlet for creating new channels.
+ * 
  * @author Johnny
  */
 @WebServlet(name = "CreateChannel", urlPatterns = {"/CreateChannel"})
@@ -34,7 +30,7 @@ public class CreateChannel extends HttpServlet {
             // Get our parameters from the request and create a new AppChannel
             HttpSession session = request.getSession();
             
-            Integer ownerId = ((AppUser)session.getAttribute("user")).userId;
+            Integer ownerId = ((AppUser)session.getAttribute("user")).getUserId();
             String channelName = request.getParameter("channel_name");
             String channelDesc = request.getParameter("channel_desc");
             
@@ -42,13 +38,15 @@ public class CreateChannel extends HttpServlet {
             channel.setOwnerId(ownerId);
             channel.setChannelName(channelName);
             channel.setChannelDesc(channelDesc);
+            
+            // Use a channel manager to add channel to the database
             AppChannelManager channelManager = new AppChannelManager(em);
             channelManager.persist(channel);
             
             // Redirect back to the main page
             response.sendRedirect("dashboard.jsp");
         } catch (Exception ex) {
-            Logger.getLogger(AddEntry.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreateChannel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -635,12 +635,11 @@
         <engine sniffer="web"></engine>
       </module>
     </application>
-    <application deployment-time="4687" context-root="/ClimateChangeMeetingPlatform" object-type="user" name="ClimateMeetingPlatform" directory-deployed="true" location="file:/D:/ClimateChangeMeetingPlatform/target/ClimateMeetingPlatform-1.0/" time-deployed="1574443066145">
+    <application deployment-time="8038" context-root="/ClimateChangeMeetingPlatform" object-type="user" name="ClimateMeetingPlatform" directory-deployed="true" location="file:/D:/ClimateChangeMeetingPlatform/target/ClimateMeetingPlatform-1.0/" time-deployed="1575242647497">
       <property name="archiveType" value="war"></property>
       <property name="cdiDevModeEnabled" value="false"></property>
       <property name="defaultAppName" value="ClimateMeetingPlatform-1.0"></property>
       <property name="appLocation" value="file:/D:/ClimateChangeMeetingPlatform/target/ClimateMeetingPlatform-1.0/"></property>
-      <property name="keepSessions" value="true"></property>
       <module name="ClimateMeetingPlatform">
         <engine sniffer="jpa"></engine>
         <engine sniffer="resources"></engine>

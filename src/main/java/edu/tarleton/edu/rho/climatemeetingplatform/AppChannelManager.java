@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.tarleton.edu.rho.climatemeetingplatform;
 
 import java.util.ArrayList;
@@ -16,7 +11,8 @@ import javax.transaction.UserTransaction;
 import org.json.JSONObject;
 
 /**
- *
+ * The AppChannelManager handles channel queries and transactions to and from the database.
+ * 
  * @author Johnny
  */
 public class AppChannelManager {
@@ -25,6 +21,12 @@ public class AppChannelManager {
 
     public AppChannelManager(EntityManager em) {
         this.em = em;
+    }
+    
+    public AppChannel getAppChannelByChannelId(Integer id) {
+        return em.createNamedQuery("AppChannel.findByChannelId", AppChannel.class)
+                .setParameter("channelId", id)
+                .getResultList().get(0);
     }
     
     public List<AppChannel> getAppChannelsByOwnerId(Integer id) {

@@ -86,7 +86,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div id="create-channel-panel" class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
       <div class="w3-threequarter">
-            <button class="w3-btn w3-large" onclick="createChannelBack()"><i class="fa fa-arrow-left"></i> Back</button>
+            <button class="w3-btn w3-large" onclick="showChannelGrid()"><i class="fa fa-arrow-left"></i> Back</button>
             <h5 id="your-channels-header">Create a Channel</h5>
             <div class="w3-container w3-half w3-margin-top">
                 <label>Channel Thumbnail</label><br><br>
@@ -119,33 +119,49 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       
     <div id="show-channel-panel" class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
-      <div class="w3-threequarter">
-            <button class="w3-btn w3-large" onclick="createChannelBack()"><i class="fa fa-arrow-left"></i> Back</button>
-            <h5 id="your-channels-header">Channel Details</h5>
-            <div class="w3-container w3-half w3-margin-top">
-                <label>Channel Thumbnail</label><br><br>
-                <img id="preview" src="" width="426" height="240"  alt="Thumbnail preview..."><br>
-                <input type="file" onchange="previewFile()">
-            </div>
-            <div class="w3-container w3-half w3-margin-top">
-
-                <form id="create-channel-form" action="CreateChannel" method="post" class="w3-container">
+    <button class="w3-btn w3-large" onclick="showChannelGrid()"><i class="fa fa-arrow-left"></i> Back</button>
+      <div class="w3-container">
+            <div class="w3-container w3-quarter w3-margin-top">
+                <h2 id="your-channels-header">Channel Details</h2>
+                <form id="create-channel-form" action="UpdateChannel" method="post" class="w3-container">
                 <p>
                 <label>Channel Name</label>
-                <input class="w3-input w3-border" type="text" name="channel_name" required>
+                <input id="channel-details-name" class="w3-input w3-border" type="text" name="channel_name" required>
                 </p>
                 
                 <p>
                 <label>Channel Description</label>
-                <textarea id="channel-desc-input" name="channel_desc" class="w3-input w3-border" style="resize:none"></textarea>
+                <textarea id="channel-details-desc" name="channel_desc" class="w3-input w3-border" style="resize:none"></textarea>
                 </p>
                 
+                <input id="channel-details-id" type="text" name="channel_id" hidden/>
                 <p>
-                <button class="w3-button w3-section w3-teal w3-ripple"> Create </button></p>
+                <button class="w3-button w3-section w3-teal w3-ripple"> Update </button></p>
 
                 </form>
 
+            </div>
+            <div class="w3-container w3-threequarter w3-margin-top">
+                <h2>Meetings</h2>
+                
+                <div class="w3-bar w3-black">
+                  <button class="w3-bar-item w3-button tablink w3-red" onclick="openTab(event,'upcoming-meetings')">Upcoming Meetings</button>
+                  <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'schedule-meeting')">Schedule Meeting</button>
+                  <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'meeting-history')">Meeting History</button>
                 </div>
+
+                <div id="upcoming-meetings" class="w3-container w3-border tab">
+                  <p>In this tab, you'll be able to see all upcoming meetings for this channel.</p>
+                </div>
+
+                <div id="schedule-meeting" class="w3-container w3-border tab" style="display:none">
+                  <p>You'll schedule new meetings in this tab.</p> 
+                </div>
+
+                <div id="meeting-history" class="w3-container w3-border tab" style="display:none">
+                  <p>Here, you can see the meeting history for this channel.</p>
+                </div>
+              </div>
 
       </div>
     </div>
